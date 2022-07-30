@@ -1,3 +1,10 @@
+const fs = require("fs")
+require("dotenv").config({
+  path:
+    (fs.existsSync(`.env.${process.env.NODE_ENV}`) &&
+      `.env.${process.env.NODE_ENV}`) ||
+    ".env",
+})
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
@@ -16,6 +23,14 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: "gatsby-source-shopify",
+      options: {
+        storeUrl: process.env.GATSBY_SHOPIFY_STORE_URL,
+        password: process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+        shopifyConnections: ["collections"], // source product collections too
+      },
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
