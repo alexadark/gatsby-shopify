@@ -1,30 +1,37 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
-import React from "react"
+import React, { useContext } from "react"
 import { FaShoppingCart } from "react-icons/fa"
+import { StoreContext } from "../context/StoreContext"
 
 import logo from "../images/logo.svg"
 
-const Header = ({ siteTitle }) => (
-  <header className="bg-purple-700 py-3">
-    <div className="container mx-auto flex justify-between items-center">
-      <div className="navbar-brand ">
-        <Link to="/" className="navbar-item">
-          <img
-            style={{ height: 60, maxHeight: "none", marginBottom: 0 }}
-            src={logo}
-            alt="Level Up Logo"
-          />
-        </Link>
-      </div>
-      <div className="navbar-end">
-        <div className="navbar-item">
-          <FaShoppingCart style={{ color: "white", height: 30, width: 30 }} />
+const Header = ({ siteTitle }) => {
+  const { isCartOpen, cart, addProductToCart } = useContext(StoreContext)
+  return (
+    <header className="bg-purple-700 py-3">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="navbar-brand ">
+          <Link to="/" className="navbar-item">
+            <img
+              style={{ height: 60, maxHeight: "none", marginBottom: 0 }}
+              src={logo}
+              alt="Level Up Logo"
+            />
+          </Link>
+        </div>
+        <div className="navbar-end">
+          <div className="navbar-item">
+            <FaShoppingCart
+              onClick={addProductToCart}
+              style={{ color: "white", height: 30, width: 30 }}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  </header>
-)
+    </header>
+  )
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
