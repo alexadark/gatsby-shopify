@@ -35,18 +35,23 @@ export const ProductsListing = () => {
     <div>
       <h1>Products</h1>
       <div className="grid grid-cols-3 gap-8">
-        {products.map(product => (
-          <div key={product.id}>
-            <h2>{product.title}</h2>
-            <GatsbyImage
-              image={product.images[0].gatsbyImageData}
-              alt={product.images[0].altText}
-              className="my-3 border"
-            />
-            <p>{product.variants[0].price}$</p>
-            <AddToCart />
-          </div>
-        ))}
+        {products.map(product => {
+          const { images, title, id, variants } = product
+          const variantId = variants[0]?.shopifyId
+
+          return (
+            <div key={id}>
+              <h2>{title}</h2>
+              <GatsbyImage
+                image={images[0].gatsbyImageData}
+                alt={images[0].altText}
+                className="my-3 border"
+              />
+              <p>{variants[0].price}$</p>
+              <AddToCart variantId={variantId} />
+            </div>
+          )
+        })}
       </div>
     </div>
   )

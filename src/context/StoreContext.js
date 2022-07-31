@@ -18,15 +18,31 @@ const defaultValues = {
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
+  const addProductToCart = async variantId => {
+    try {
+      const newCheckout = await client.checkout.create()
+      const lineItems = [
+        {
+          variantId,
+          quantity: 1,
+        },
+      ]
+
+      const addItems = await client.checkout.addLineItems(
+        newCheckout.id,
+        lineItems
+      )
+      console.log(addItems)
+    } catch (error) {
+      console.error(error)
+    }
+    console.log("!!!")
+  }
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [cart, setCart] = useState([])
 
-  const addProductToCart = product => {
-    setCart([...cart, product])
-  }
-
   return (
-    <StoreContext.Provider value={defaultValues}>
+    <StoreContext.Provider value={{ ...defaultValues, addProductToCart }}>
       {children}
     </StoreContext.Provider>
   )

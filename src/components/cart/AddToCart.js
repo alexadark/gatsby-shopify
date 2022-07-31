@@ -1,10 +1,12 @@
-import React from "react"
+import React, { useContext } from "react"
+import { StoreContext } from "../../context/StoreContext"
 
-const AddToCart = () => {
+const AddToCart = variantId => {
+  const { addProductToCart } = useContext(StoreContext)
   return (
     <button
       className="px-4 py-2 font-bold text-white bg-purple-700 rounded"
-      onClick={() => console.log("added to cart")}
+      onClick={() => addProductToCart(variantId)}
     >
       Add To Cart
     </button>

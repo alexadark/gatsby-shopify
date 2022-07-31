@@ -9,7 +9,7 @@ import logo from "../images/logo.svg"
 const Header = ({ siteTitle }) => {
   const { isCartOpen, cart, addProductToCart, client } =
     useContext(StoreContext)
-  debugger
+
   return (
     <header className="py-3 bg-purple-700">
       <div className="container flex items-center justify-between mx-auto">
@@ -24,10 +24,7 @@ const Header = ({ siteTitle }) => {
         </div>
         <div className="navbar-end">
           <div className="navbar-item">
-            <FaShoppingCart
-              onClick={addProductToCart}
-              style={{ color: "white", height: 30, width: 30 }}
-            />
+            <FaShoppingCart style={{ color: "white", height: 30, width: 30 }} />
           </div>
         </div>
       </div>
