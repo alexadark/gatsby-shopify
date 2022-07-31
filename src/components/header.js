@@ -7,10 +7,12 @@ import { StoreContext } from "../context/StoreContext"
 import logo from "../images/logo.svg"
 
 const Header = ({ siteTitle }) => {
-  const { isCartOpen, cart, addProductToCart } = useContext(StoreContext)
+  const { isCartOpen, cart, addProductToCart, client } =
+    useContext(StoreContext)
+  debugger
   return (
-    <header className="bg-purple-700 py-3">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="py-3 bg-purple-700">
+      <div className="container flex items-center justify-between mx-auto">
         <div className="navbar-brand ">
           <Link to="/" className="navbar-item">
             <img
