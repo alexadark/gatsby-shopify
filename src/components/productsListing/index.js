@@ -1,6 +1,8 @@
 import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { GatsbyImage } from "gatsby-plugin-image"
+import AddToCart from "../cart/AddToCart"
+
 const PRODUCTS_QUERY = graphql`
   query {
     allShopifyProduct(sort: { fields: publishedAt, order: ASC }, limit: 10) {
@@ -39,12 +41,10 @@ export const ProductsListing = () => {
             <GatsbyImage
               image={product.images[0].gatsbyImageData}
               alt={product.images[0].altText}
+              className="my-3 border"
             />
-            {/* <p>{product.description}</p> */}
-            <p>{product.productType}</p>
-            <p>{product.variants[0].title}</p>
-            <p>{product.variants[0].price}</p>
-            {/* <p>{product.variants[0].availableForSale ? "Yes" : "No"}</p> */}
+            <p>{product.variants[0].price}$</p>
+            <AddToCart />
           </div>
         ))}
       </div>
