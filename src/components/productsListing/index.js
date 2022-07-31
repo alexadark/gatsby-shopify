@@ -18,10 +18,15 @@ const PRODUCTS_QUERY = graphql`
           price
           availableForSale
         }
-        images {
-          gatsbyImageData(layout: CONSTRAINED)
-          altText
-          id
+        images: media {
+          ... on ShopifyMediaImage {
+            id
+            alt
+            image {
+              gatsbyImageData
+              altText
+            }
+          }
         }
       }
     }
@@ -43,8 +48,8 @@ export const ProductsListing = () => {
             <div key={id}>
               <h2>{title}</h2>
               <GatsbyImage
-                image={images[0].gatsbyImageData}
-                alt={images[0].altText}
+                image={images[0].image.gatsbyImageData}
+                alt={images[0].image.altText}
                 className="my-3 border"
               />
               <p>{variants[0].price}$</p>
