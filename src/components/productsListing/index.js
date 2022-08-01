@@ -17,6 +17,7 @@ const PRODUCTS_QUERY = graphql`
           title
           price
           availableForSale
+          storefrontId
         }
         images: media {
           ... on ShopifyMediaImage {
@@ -41,19 +42,23 @@ export const ProductsListing = () => {
       <h1>Products</h1>
       <div className="grid grid-cols-3 gap-8">
         {products.map(product => {
-          const { images, title, id, variants } = product
-          const variantId = variants[0]?.shopifyId
+          const { title, id } = product
 
+          const {
+            images: [firstImage],
+            variants: [firstVariant],
+          } = product
+          console.log(firstVariant.shopifyId)
           return (
             <div key={id}>
               <h2>{title}</h2>
               <GatsbyImage
-                image={images[0].image.gatsbyImageData}
-                alt={images[0].image.altText}
+                image={firstImage.image.gatsbyImageData}
+                alt={firstImage.image.altText}
                 className="my-3 border"
               />
-              <p>{variants[0].price}$</p>
-              <AddToCart variantId={variantId} />
+              <p>{firstVariant.price}$</p>
+              <AddToCart variantId={firstVariant.shopifyId} />
             </div>
           )
         })}

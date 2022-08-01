@@ -1,4 +1,6 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, useEffect } from "react"
+import fetch from "isomorphic-fetch"
+
 import Client from "shopify-buy"
 
 const client = Client.buildClient({
@@ -18,9 +20,25 @@ const defaultValues = {
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
-  const addProductToCart = async variantId => {
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [cart, setCart] = useState([])
+  const [checkoutId, setCheckoutId] = useState({})
+
+  const initializeCheckout = async () => {
     try {
       const newCheckout = await client.checkout.create()
+      setCheckoutId(newCheckout.id)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    initializeCheckout()
+  }, [])
+
+  const addProductToCart = async variantId => {
+    try {
       const lineItems = [
         {
           variantId,
@@ -28,18 +46,14 @@ export const StoreProvider = ({ children }) => {
         },
       ]
 
-      const addItems = await client.checkout.addLineItems(
-        newCheckout.id,
-        lineItems
-      )
-      console.log(addItems)
+      const addItems = await client.checkout.addLineItems(checkoutId, lineItems)
+      //buy now button code
+      //window.open(addItems.webUrl, "_blank")
+      console.log(addItems.webUrl)
     } catch (error) {
       console.error(error)
     }
-    console.log("!!!")
   }
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cart, setCart] = useState([])
 
   return (
     <StoreContext.Provider value={{ ...defaultValues, addProductToCart }}>
