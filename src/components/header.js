@@ -8,8 +8,9 @@ import Cart from "./cart/Cart"
 import logo from "../images/logo.svg"
 
 const Header = ({ siteTitle }) => {
-  const { cart, addProductToCart, client } = useContext(StoreContext)
-  const [isCartOpen, setCartOpen] = useState(false)
+  const { cart, addProductToCart, client, isCartOpen, toggleCartOpen } =
+    useContext(StoreContext)
+  // const [isCartOpen, setCartOpen] = useState(false)
   return (
     <header className="py-3 bg-purple-700">
       <div className="container flex items-center justify-between mx-auto">
@@ -23,12 +24,12 @@ const Header = ({ siteTitle }) => {
           </Link>
         </div>
         <div className="navbar-end">
-          <button onClick={() => setCartOpen(!isCartOpen)}>
+          <button onClick={toggleCartOpen}>
             <FaShoppingCart style={{ color: "white", height: 30, width: 30 }} />
           </button>
         </div>
       </div>
-      {isCartOpen && <Cart setCartOpen={setCartOpen} />}
+      {isCartOpen && <Cart />}
     </header>
   )
 }

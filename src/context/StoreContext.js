@@ -7,8 +7,8 @@ const client = Client.buildClient({
 })
 
 const defaultValues = {
-  // isCartOpen: false,
-  // toggleCartOpen: () => {},
+  isCartOpen: false,
+  toggleCartOpen: () => {},
   cart: [],
   addProductToCart: () => {},
   client,
@@ -20,8 +20,8 @@ console.log("client", client)
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
-  // const [isCartOpen, setCartOpen] = useState(false)
-  // const toggleCartOpen = () => setCartOpen(!isCartOpen)
+  const [isCartOpen, setCartOpen] = useState(false)
+  const toggleCartOpen = () => setCartOpen(!isCartOpen)
 
   const [checkout, setCheckout] = useState(defaultValues.checkout)
 
@@ -79,7 +79,13 @@ export const StoreProvider = ({ children }) => {
 
   return (
     <StoreContext.Provider
-      value={{ ...defaultValues, addProductToCart, checkout }}
+      value={{
+        ...defaultValues,
+        addProductToCart,
+        checkout,
+        toggleCartOpen,
+        isCartOpen,
+      }}
     >
       {children}
     </StoreContext.Provider>

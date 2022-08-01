@@ -1,13 +1,13 @@
 import React, { useContext } from "react"
 import { StoreContext } from "../../context/StoreContext"
 
-const Cart = ({ setCartOpen }) => {
-  const { checkout } = useContext(StoreContext)
+const Cart = () => {
+  const { checkout, toggleCartOpen } = useContext(StoreContext)
   console.log("checkout", checkout.lineItems)
   return (
     <div className="fixed top-0 right-0 z-10 w-1/2 h-full bg-white shadow-2xl">
       <div className="flex justify-end">
-        <button className="p-3" onClick={() => setCartOpen(false)}>
+        <button className="p-3" onClick={toggleCartOpen}>
           close
         </button>
       </div>
