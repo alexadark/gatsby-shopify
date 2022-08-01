@@ -2,7 +2,8 @@ import React, { useContext } from "react"
 import { StoreContext } from "../../context/StoreContext"
 
 const Cart = () => {
-  const { checkout, toggleCartOpen } = useContext(StoreContext)
+  const { checkout, toggleCartOpen, removeProductFromCart } =
+    useContext(StoreContext)
   console.log("checkout", checkout.lineItems)
 
   return (
@@ -13,8 +14,6 @@ const Cart = () => {
         </button>
       </div>
       {checkout.lineItems.map(item => {
-        console.log(item.variant)
-
         return (
           <div key={item.id}>
             <div className="flex items-center gap-5">
@@ -26,6 +25,12 @@ const Cart = () => {
               {item.variant.priceV2.currencyCode}
             </p>
             <p>{item.quantity}</p>
+            <button
+              className="p-3 text-white bg-pink-600"
+              onClick={() => removeProductFromCart(item.id)}
+            >
+              Remove
+            </button>
           </div>
         )
       })}
