@@ -6,7 +6,10 @@ import { StoreContext } from "../context/StoreContext"
 import Cart from "./cart/Cart"
 
 const Header = ({ siteTitle }) => {
-  const { isCartOpen, toggleCartOpen } = useContext(StoreContext)
+  const { isCartOpen, toggleCartOpen, checkout } = useContext(StoreContext)
+  const qty = checkout.lineItems.reduce((total, item) => {
+    return total + item.quantity
+  }, 0)
 
   return (
     <header className="py-3 bg-purple-700">
@@ -18,6 +21,7 @@ const Header = ({ siteTitle }) => {
         </div>
         <div className="navbar-end">
           <button onClick={toggleCartOpen}>
+            <div className="text-white">{qty}</div>
             <FaShoppingCart style={{ color: "white", height: 30, width: 30 }} />
           </button>
         </div>
