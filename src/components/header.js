@@ -1,15 +1,15 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { FaShoppingCart } from "react-icons/fa"
 import { StoreContext } from "../context/StoreContext"
+import Cart from "./cart/Cart"
 
 import logo from "../images/logo.svg"
 
 const Header = ({ siteTitle }) => {
-  const { isCartOpen, cart, addProductToCart, client } =
-    useContext(StoreContext)
-
+  const { cart, addProductToCart, client } = useContext(StoreContext)
+  const [isCartOpen, setCartOpen] = useState(false)
   return (
     <header className="py-3 bg-purple-700">
       <div className="container flex items-center justify-between mx-auto">
@@ -23,11 +23,12 @@ const Header = ({ siteTitle }) => {
           </Link>
         </div>
         <div className="navbar-end">
-          <div className="navbar-item">
+          <button onClick={() => setCartOpen(!isCartOpen)}>
             <FaShoppingCart style={{ color: "white", height: 30, width: 30 }} />
-          </div>
+          </button>
         </div>
       </div>
+      {isCartOpen && <Cart setCartOpen={setCartOpen} />}
     </header>
   )
 }

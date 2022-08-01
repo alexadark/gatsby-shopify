@@ -7,20 +7,23 @@ const client = Client.buildClient({
 })
 
 const defaultValues = {
-  isCartOpen: false,
+  // isCartOpen: false,
+  // toggleCartOpen: () => {},
   cart: [],
-  addProductToCart: () => {
-    console.log("added!")
-  },
+  addProductToCart: () => {},
   client,
+  checkout: {
+    lineItems: [],
+  },
 }
 console.log("client", client)
 export const StoreContext = createContext(defaultValues)
 
 export const StoreProvider = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cart, setCart] = useState([])
-  const [checkout, setCheckout] = useState({})
+  // const [isCartOpen, setCartOpen] = useState(false)
+  // const toggleCartOpen = () => setCartOpen(!isCartOpen)
+
+  const [checkout, setCheckout] = useState(defaultValues.checkout)
 
   const initializeCheckout = async () => {
     try {
@@ -61,20 +64,23 @@ export const StoreProvider = ({ children }) => {
         },
       ]
 
-      const addItems = await client.checkout.addLineItems(
+      const newCheckout = await client.checkout.addLineItems(
         checkout.id,
         lineItems
       )
       //buy now button code
-      // window.open(addItems.webUrl, "_blank")
-      console.log(addItems.webUrl)
+      // window.open(newCheckout.webUrl, "_blank")
+      setCheckout(newCheckout)
+      console.log(newCheckout.webUrl)
     } catch (error) {
       console.error(error)
     }
   }
 
   return (
-    <StoreContext.Provider value={{ ...defaultValues, addProductToCart }}>
+    <StoreContext.Provider
+      value={{ ...defaultValues, addProductToCart, checkout }}
+    >
       {children}
     </StoreContext.Provider>
   )
