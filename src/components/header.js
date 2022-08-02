@@ -7,6 +7,7 @@ import Cart from "./cart/Cart"
 
 const Header = ({ siteTitle }) => {
   const { isCartOpen, toggleCartOpen, checkout } = useContext(StoreContext)
+
   const qty = checkout.lineItems.reduce((total, item) => {
     return total + item.quantity
   }, 0)
