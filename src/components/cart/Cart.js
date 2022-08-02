@@ -26,7 +26,7 @@ const Cart = () => {
             </p>
             <p>{item.quantity}</p>
             <button
-              className="p-3 text-white bg-pink-600"
+              className="p-1 mb-3 text-white bg-pink-600"
               onClick={() => removeProductFromCart(item.id)}
             >
               Remove
@@ -34,10 +34,19 @@ const Cart = () => {
           </div>
         )
       })}
-      <p>
+      <div className="font-bold uppercase">
         Total: {checkout.totalPriceV2.amount}
         {checkout.totalPriceV2.currencyCode}
-      </p>
+      </div>
+      <div className="flex justify-end mt-5">
+        <a
+          href={checkout.webUrl}
+          target="_blank"
+          className="block w-full p-3 text-center text-white no-underline bg-purple-600 rounded-sm"
+        >
+          checkout now
+        </a>
+      </div>
     </div>
   )
 }
