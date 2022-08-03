@@ -1,10 +1,11 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { StoreContext } from "../../context/StoreContext"
 
 const Cart = () => {
-  const { checkout, toggleCartOpen, removeProductFromCart } =
+  const { checkout, toggleCartOpen, removeProductFromCart, checkCoupon } =
     useContext(StoreContext)
-  console.log("checkout", checkout.lineItems)
+
+  const [coupon, setCoupon] = useState("")
 
   return (
     <div className="fixed top-0 right-0 z-10 w-1/2 h-full p-5 bg-white shadow-2xl">
@@ -34,6 +35,26 @@ const Cart = () => {
           </div>
         )
       })}
+      <div>
+        <form
+          onSubmit={e => {
+            e.preventDefault()
+            checkCoupon(coupon)
+          }}
+        >
+          <label htmlFor="coupon">Coupon</label>
+          <input
+            value={coupon}
+            name="coupon"
+            onChange={e => setCoupon(e.target.value)}
+            type="text"
+            className="w-full h-10 mb-5 border "
+          />
+          <button className="p-2 mb-5 font-bold text-white bg-purple-400 rounded-sm">
+            Check Coupon
+          </button>
+        </form>
+      </div>
       <div className="font-bold uppercase">
         Total: {checkout.totalPriceV2.amount}
         {checkout.totalPriceV2.currencyCode}
