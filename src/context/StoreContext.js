@@ -24,9 +24,10 @@ export const StoreContext = createContext(defaultValues)
 export const StoreProvider = ({ children }) => {
   const [isCartOpen, setCartOpen] = useState(false)
   const toggleCartOpen = () => setCartOpen(!isCartOpen)
-  const isBrowser = typeof window !== "undefined"
-
   const [checkout, setCheckout] = useState(defaultValues.checkout)
+  const [isLoading, setLoading] = useState(false)
+
+  const isBrowser = typeof window !== "undefined"
 
   const getNewId = async () => {
     try {
@@ -71,6 +72,8 @@ export const StoreProvider = ({ children }) => {
 
   const addProductToCart = async variantId => {
     try {
+      setLoading(true)
+
       const lineItems = [
         {
           variantId,
@@ -84,36 +87,44 @@ export const StoreProvider = ({ children }) => {
       )
       //buy now button code
       // window.open(newCheckout.webUrl, "_blank")
+      setLoading(false)
       setCheckout(newCheckout)
       console.log(newCheckout.webUrl)
     } catch (error) {
+      setLoading(false)
       console.error(error)
     }
   }
 
   const removeProductFromCart = async lineItemId => {
     try {
+      setLoading(true)
       const newCheckout = await client.checkout.removeLineItems(checkout.id, [
         lineItemId,
       ])
-
+      setLoading(false)
       setCheckout(newCheckout)
     } catch (error) {
+      setLoading(false)
       console.error(error)
     }
   }
 
   const checkCoupon = async coupon => {
+    setLoading(true)
     const newCheckout = await client.checkout.addDiscount(checkout.id, coupon)
     setCheckout(newCheckout)
+    setLoading(false)
   }
 
   const removeCoupon = async coupon => {
+    setLoading(true)
     const newCheckout = await client.checkout.removeDiscount(
       checkout.id,
       coupon
     )
     setCheckout(newCheckout)
+    setLoading(false)
   }
 
   return (
@@ -127,6 +138,7 @@ export const StoreProvider = ({ children }) => {
         removeProductFromCart,
         checkCoupon,
         removeCoupon,
+        isLoading,
       }}
     >
       {children}
